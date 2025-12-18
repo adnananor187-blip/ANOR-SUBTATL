@@ -1,0 +1,8 @@
+{
+  "name": "Anwar-Matrix 🎬",
+  "description": "An advanced movie translation and dubbing suite powered by Gemini AI, featuring a Matrix-inspired aesthetic and professional-grade editing tools.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
