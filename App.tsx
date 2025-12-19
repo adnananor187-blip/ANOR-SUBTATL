@@ -4,17 +4,13 @@ import { Dashboard } from './views/Dashboard';
 import { Studio } from './views/Studio';
 import { BatchProcessor } from './views/BatchProcessor';
 import { VideoTools } from './views/VideoTools';
-import { LiveConversation } from './views/LiveConversation';
-import { VideoAnalyzer } from './views/VideoAnalyzer';
 import { MatrixBackground } from './components/MatrixBackground';
 
 export enum View {
   DASHBOARD = 'DASHBOARD',
   STUDIO = 'STUDIO',
   BATCH = 'BATCH',
-  TOOLS = 'TOOLS',
-  LIVE = 'LIVE',
-  ANALYZER = 'ANALYZER'
+  TOOLS = 'TOOLS'
 }
 
 export type ThemeType = 'matrix' | 'cyberpunk' | 'cinema' | 'stealth';
@@ -32,53 +28,43 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`theme-${theme} min-h-screen bg-background-dark text-white selection:bg-theme-primary/30 font-sans overflow-hidden transition-colors duration-1000`}>
+    <div className={`theme-${theme} h-screen bg-background-dark text-white selection:bg-theme-primary/30 font-sans overflow-hidden transition-colors duration-1000 flex items-center justify-center p-4 md:p-6`}>
       <MatrixBackground type={bg} theme={theme} />
       
-      <div className="relative z-10 h-screen overflow-auto">
-        {currentView === View.DASHBOARD && (
-          <Dashboard 
-            onFileSelect={handleFileSelect}
-            onNavigate={setCurrentView}
-            currentTheme={theme}
-            setTheme={setTheme}
-            currentBg={bg}
-            setBg={setBg}
-          />
-        )}
+      <div className="relative z-10 w-full max-w-6xl h-full max-h-[900px] bg-surface-dark/90 border border-white/10 rounded-[2.5rem] shadow-[0_0_80px_rgba(var(--primary-rgb),0.1)] overflow-hidden flex flex-col backdrop-blur-md">
+        <div className="flex-1 overflow-auto custom-scrollbar">
+          {currentView === View.DASHBOARD && (
+            <Dashboard 
+              onFileSelect={handleFileSelect}
+              onNavigate={setCurrentView}
+              currentTheme={theme}
+              setTheme={setTheme}
+              currentBg={bg}
+              setBg={setBg}
+            />
+          )}
 
-        {currentView === View.STUDIO && (
-          <Studio 
-            videoFile={selectedFile}
-            onBack={() => setCurrentView(View.DASHBOARD)}
-            theme={theme}
-          />
-        )}
+          {currentView === View.STUDIO && (
+            <Studio 
+              videoFile={selectedFile}
+              onBack={() => setCurrentView(View.DASHBOARD)}
+              theme={theme}
+            />
+          )}
 
-        {currentView === View.BATCH && (
-          <BatchProcessor 
-            theme={theme}
-            onBack={() => setCurrentView(View.DASHBOARD)}
-          />
-        )}
+          {currentView === View.BATCH && (
+            <BatchProcessor 
+              theme={theme}
+              onBack={() => setCurrentView(View.DASHBOARD)}
+            />
+          )}
 
-        {currentView === View.TOOLS && (
-          <VideoTools 
-            onBack={() => setCurrentView(View.DASHBOARD)}
-          />
-        )}
-
-        {currentView === View.LIVE && (
-          <LiveConversation 
-            onBack={() => setCurrentView(View.DASHBOARD)}
-          />
-        )}
-
-        {currentView === View.ANALYZER && (
-          <VideoAnalyzer 
-            onBack={() => setCurrentView(View.DASHBOARD)}
-          />
-        )}
+          {currentView === View.TOOLS && (
+            <VideoTools 
+              onBack={() => setCurrentView(View.DASHBOARD)}
+            />
+          )}
+        </div>
       </div>
 
       <style>{`
@@ -100,6 +86,8 @@ const App: React.FC = () => {
         .animate-fade-in {
           animation: fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(var(--primary-rgb), 0.2); border-radius: 10px; }
       `}</style>
     </div>
   );

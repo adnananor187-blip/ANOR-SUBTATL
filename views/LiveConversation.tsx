@@ -52,7 +52,8 @@ export const LiveConversation: React.FC<{ onBack: () => void }> = ({ onBack }) =
 
   const startSession = async () => {
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+      // Create a new GoogleGenAI instance right before making an API call to ensure it always uses the most up-to-date API key
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       
       const inputAudioContext = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 });
@@ -86,6 +87,7 @@ export const LiveConversation: React.FC<{ onBack: () => void }> = ({ onBack }) =
                 data: encode(new Uint8Array(int16.buffer)),
                 mimeType: 'audio/pcm;rate=16000',
               };
+              // Using sessionPromise.then to avoid race condition and stale closures
               sessionPromise.then(s => s.sendRealtimeInput({ media: pcmBlob }));
             };
             source.connect(scriptProcessor);

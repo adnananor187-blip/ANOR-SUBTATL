@@ -51,7 +51,6 @@ export const VideoTools: React.FC<VideoToolsProps> = ({ onBack }) => {
       const text = await file.text();
       const parsedSubs = parseSRT(text);
       
-      // Batch translation in chunks if too large (simplified here)
       const translatedSubs = await translateSubtitlesMastermind(parsedSubs, 'Arabic');
       const finalSrt = generateSRT(translatedSubs);
       setTranslatedContent(finalSrt);
@@ -107,7 +106,6 @@ export const VideoTools: React.FC<VideoToolsProps> = ({ onBack }) => {
             <ToolCard icon="audio_file" title="استخراج الصوت" desc="تحويل أي فيديو إلى ملف صوتي عالي الجودة" />
             <ToolCard icon="slow_motion_video" title="مزامنة يدوية" desc="ضبط التوقيت بين الصوت والترجمة يدوياً" />
             <ToolCard icon="movie_edit" title="دمج الترجمة" desc="حرق الترجمة داخل ملف الفيديو بشكل دائم" />
-            <ToolCard icon="voice_selection" title="مدير الدبلجة" desc="اختيار وتخصيص أصوات الدبلجة الذكية" />
             <ToolCard icon="settings_suggest" title="تحسين الجودة" desc="تحسين جودة الفيديو والصوت باستخدام AI" />
           </div>
         ) : (
